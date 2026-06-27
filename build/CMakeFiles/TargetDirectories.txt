@@ -1,0 +1,4 @@
+/Users/chichi/Downloads/cpp/build/CMakeFiles/oms.dir
+/Users/chichi/Downloads/cpp/build/CMakeFiles/test.dir
+/Users/chichi/Downloads/cpp/build/CMakeFiles/edit_cache.dir
+/Users/chichi/Downloads/cpp/build/CMakeFiles/rebuild_cache.dir

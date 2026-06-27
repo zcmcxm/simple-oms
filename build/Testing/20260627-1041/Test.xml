@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20260627-1041-Experimental"
+	Name="(empty)"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="macOS"
+	Hostname="Chichis-MacBook-Pro.local"
+	OSRelease="26.5.1"
+	OSVersion="25F80"
+	OSPlatform="arm64"
+	Is64Bits="1"
+	VendorString="Apple"
+	VendorID="Apple"
+	FamilyID="0"
+	ModelID="0"
+	ModelName="Apple M1 Pro"
+	ProcessorCacheSize="131072"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="8"
+	TotalVirtualMemory="7168"
+	TotalPhysicalMemory="16384"
+	LogicalProcessorsPerPhysical="8"
+	ProcessorClockFrequency="0"
+	>
+	<Testing>
+		<StartDateTime>Jun 27 19:27 +08</StartDateTime>
+		<StartTestTime>1782559648</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jun 27 19:27 +08</EndDateTime>
+		<EndTestTime>1782559648</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>
