@@ -14,5 +14,6 @@ class OrderService {
         int createLimitOrder(Side side, std::string symbol, int quantity, double limitPrice);
         int createMarketOrder(Side side, std::string symbol, int quantity);
         bool cancelOrder(int orderId, std::string& error);
+        bool fillOrder(int orderId, int quantity, std::string& error);
         std::vector<Order> getAllOrders() const;
 };

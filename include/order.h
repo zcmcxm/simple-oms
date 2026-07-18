@@ -8,13 +8,24 @@ enum class OrderStatus { ACTIVE, CANCELED, FILLED };
 
 class Order {
 public:
-    static Order createMarketOrder(Side side, const std::string& symbol, int quantity) {
-        return Order(OrderType::MARKET, side, symbol, quantity, 0.0);
+    static Order createMarketOrder(Side side, const std::string& symbol, int originalQuantity) {
+        return Order(OrderType::MARKET, side, symbol, originalQuantity, 0, OrderStatus::ACTIVE, std::nullopt);
     }
 
-    static Order createLimitOrder(Side side, const std::string& symbol, int quantity, double limitPrice) {
-        return Order(OrderType::LIMIT, side, symbol, quantity, limitPrice);
+    static Order createLimitOrder(Side side, const std::string& symbol, int originalQuantity, double limitPrice) {
+        return Order(OrderType::LIMIT, side, symbol, originalQuantity, 0, OrderStatus::ACTIVE, limitPrice);
     }
+
+    Order(OrderType type, Side side, std::string symbol, int originalQuantity, int filledQuantity, OrderStatus status, std::optional<double> limitPrice)
+        : id_(nextId_++),
+        type_(type),
+        side_(side),
+        symbol_(std::move(symbol)),
+        originalQuantity_(originalQuantity),
+        filledQuantity_(filledQuantity),
+        status_(status),
+        limitPrice_(limitPrice)
+    {}
 
     int getId() const noexcept { return id_; }
     OrderType getType() const noexcept { return type_; }
@@ -34,16 +45,6 @@ public:
     }
 
 private:
-    Order(OrderType type, Side side, std::string symbol, int originalQuantity, std::optional<double> limitPrice = std::nullopt)
-        : id_(nextId_++),
-        type_(type),
-        side_(side),
-        symbol_(std::move(symbol)),
-        originalQuantity_(originalQuantity),
-        filledQuantity_(0),
-        status_(OrderStatus::ACTIVE),
-        limitPrice_(limitPrice)
-    {}
     inline static int nextId_ = 0;
     int id_;
     OrderType type_;
@@ -53,5 +54,5 @@ private:
     int originalQuantity_;
     int filledQuantity_;
     OrderStatus status_;
-    static constexpr std::string_view csvHeader_ = "ID,Type,Side,Symbol,OriginalQuantity,FilledQuantity,Status";
+    static constexpr std::string_view csvHeader_ = "ID,Type,Side,Symbol,LimitPrice,OriginalQuantity,FilledQuantity,Status";
 };

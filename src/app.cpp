@@ -46,6 +46,7 @@ void printHelp() {
               << "  market_order      - create a new market order\n"
               << "  limit_order       - create a new limit order\n"
               << "  cancel_order      - cancel an existing order\n"
+              << "  fill_order        - fill quantity for an existing order\n"
               << "  view_orders       - list active orders\n"
               << "  view_portfolio    - show portfolio summary\n"
               << "  quit / exit       - exit the application\n";
@@ -96,16 +97,24 @@ void printOrders(const std::vector<Order>& orders) {
         return;
     }
 
-    std::cout << "ID | Type | Side | Symbol | Original Quantity | Filled Quantity | Status\n";
+    std::cout << "ID | Type | Side | Symbol | Limit Price | Original Quantity | Filled Quantity | Status\n";
     std::cout << "------------------------------------------------------------------------\n";
     for (const auto& order : orders) {
+        std::string status = "ACTIVE";
+        if (order.getStatus() == OrderStatus::CANCELED) {
+            status = "CANCELED";
+        } else if (order.getStatus() == OrderStatus::FILLED) {
+            status = "FILLED";
+        }
+
         std::cout << order.getId() << " | "
                   << toString(order.getType()) << " | "
                   << toString(order.getSide()) << " | "
                   << order.getSymbol() << " | "
+                  << order.getLimitPrice().value_or(0.0) << " | "
                   << order.getOriginalQuantity() << " | "
                   << order.getFilledQuantity() << " | "
-                  << (order.getStatus() == OrderStatus::ACTIVE ? "ACTIVE" : "CANCELED")
+                  << status
                   << "\n";
     }
 }
@@ -173,6 +182,22 @@ void cancelOrder(OrderService& orderService) {
     std::cout << "Order " << orderId << " cancelled.\n";
 }
 
+void fillOrder(OrderService& orderService) {
+    int orderId;
+    if (!promptInt("Order ID: ", orderId)) return;
+
+    int quantity;
+    if (!promptInt("Fill quantity: ", quantity)) return;
+
+    std::string error;
+    if (!orderService.fillOrder(orderId, quantity, error)) {
+        std::cout << "Fill failed: " << error << "\n";
+        return;
+    }
+
+    std::cout << "Order " << orderId << " filled for " << quantity << " units.\n";
+}
+
 // void viewPortfolio(PortfolioService& portfolioService) {
 //     std::cout << portfolioService.getSummary() << "\n";
 // }
@@ -209,6 +234,8 @@ void runApp(OrderService& orderService, PortfolioService& portfolioService) {
             createLimitOrder(orderService);
         } else if (command == "cancel_order") {
             cancelOrder(orderService);
+        } else if (command == "fill_order") {
+            fillOrder(orderService);
         } else if (command == "view_portfolio") {
             // viewPortfolio(portfolioService);
         } else if (command == "view_orders") {

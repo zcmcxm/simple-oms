@@ -42,6 +42,46 @@ bool OrderService::cancelOrder(int orderId, std::string &error)
     }
 
     order->markAsCanceled();
+    this->orderRepository->addOrders(this->orderBook->getOrders());
+    return true;
+}
+
+bool OrderService::fillOrder(int orderId, int quantity, std::string &error)
+{
+    if (quantity <= 0)
+    {
+        error = "Fill quantity must be greater than zero";
+        return false;
+    }
+    
+    Order* order = this->orderBook->getOrderById(orderId);
+    if (!order)
+    {
+        error = "Order not found";
+        return false;
+    }
+
+    if (order->getStatus() == OrderStatus::CANCELED)
+    {
+        error = "Cannot fill a canceled order";
+        return false;
+    }
+
+    if (order->getStatus() == OrderStatus::FILLED)
+    {
+        error = "Order is already filled";
+        return false;
+    }
+
+    int remaining = order->getOriginalQuantity() - order->getFilledQuantity();
+    if (quantity > remaining)
+    {
+        error = "Fill quantity exceeds remaining order quantity";
+        return false;
+    }
+
+    order->fillQuantity(quantity);
+    this->orderRepository->addOrders(this->orderBook->getOrders());
     return true;
 }
 
