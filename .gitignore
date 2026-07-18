@@ -1,0 +1,41 @@
+# ==========================================
+# CMake Build Outputs and Artifacts
+# ==========================================
+# Ignore common build directory names
+/build*/
+/out/
+/bin/
+
+# Specific CMake cache and generated build system files
+# (Useful fallback if someone accidentally triggers an in-source build)
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# ==========================================
+# IDEs and Editors
+# ==========================================
+# CLion (JetBrains)
+/.idea/
+/cmake-build-*/
+
+# Visual Studio Code
+/.vscode/
+/.cache/
+
+# Visual Studio (MSVC)
+/.vs/
+
+# Qt Creator
+CMakeLists.txt.user*
+
+# ==========================================
+# Local Configuration (Do NOT ignore CMakePresets.json)
+# ==========================================
+CMakeUserPresets.json
