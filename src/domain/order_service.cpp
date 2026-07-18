@@ -28,7 +28,20 @@ int OrderService::createMarketOrder(Side side, std::string symbol, int quantity)
 
 bool OrderService::cancelOrder(int orderId, std::string &error)
 {
-    // For simplicity, just return true. In a real implementation, you'd check if the order exists and can be cancelled.
+    Order* order = this->orderBook->getOrderById(orderId);
+    if (!order)
+    {
+        error = "Order not found";
+        return false;
+    }
+
+    if (order->getStatus() == OrderStatus::CANCELED)
+    {
+        error = "Order is already canceled";
+        return false;
+    }
+
+    order->markAsCanceled();
     return true;
 }
 

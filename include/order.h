@@ -4,7 +4,7 @@
 
 enum class OrderType { MARKET, LIMIT };
 enum class Side { BUY, SELL };
-enum class OrderStatus { ACTIVE, CANCELED };
+enum class OrderStatus { ACTIVE, CANCELED, FILLED };
 
 class Order {
 public:
@@ -25,6 +25,13 @@ public:
     OrderStatus getStatus() const noexcept { return status_; }
     std::optional<double> getLimitPrice() const noexcept { return limitPrice_; }
     static const std::string_view getCsvHeader() { return csvHeader_; }
+    void markAsCanceled() { status_ = OrderStatus::CANCELED; }
+    void fillQuantity(int quantity) { 
+        filledQuantity_ += quantity; 
+        if (filledQuantity_ >= originalQuantity_) {
+            status_ = OrderStatus::FILLED; // Assuming order is completed when filled quantity reaches original quantity
+        }
+    }
 
 private:
     Order(OrderType type, Side side, std::string symbol, int originalQuantity, std::optional<double> limitPrice = std::nullopt)

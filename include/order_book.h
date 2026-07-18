@@ -12,6 +12,7 @@ public:
     OrderBook() : orders() {}
     OrderBook(std::vector<Order> orders) : orders(orders) {}
     std::vector<Order> getOrders() const;
-    std::optional<Order> getOrderById(int id) const;
+    Order* getOrderById(int id);
+    const Order* getOrderById(int id) const;
     void addOrder(const Order &order);
 };
