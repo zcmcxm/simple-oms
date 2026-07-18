@@ -39,3 +39,9 @@ CMakeLists.txt.user*
 # Local Configuration (Do NOT ignore CMakePresets.json)
 # ==========================================
 CMakeUserPresets.json
+
+# ==========================================
+# Miscellaneous
+# ==========================================
+# Ignore temporary files, logs, and other artifacts
+orders.csv
