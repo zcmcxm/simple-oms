@@ -45,4 +45,4 @@ CMakeUserPresets.json
 # ==========================================
 # Ignore temporary files, logs, and other artifacts
 orders.csv
-src/test*
+test*
