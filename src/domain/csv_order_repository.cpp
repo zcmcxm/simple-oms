@@ -67,14 +67,21 @@ std::vector<Order> CsvOrderRepository::getAllOrders() const
 
         if (row.size() >= 7)
         {
-            orders.emplace_back(
-                static_cast<OrderType>(std::stoi(row[1])),
-                static_cast<Side>(std::stoi(row[2])),
-                row[3],
-                std::stoi(row[4]),
-                std::stoi(row[5]),
-                static_cast<OrderStatus>(std::stoi(row[6]))
-            );
+            int orderTypeInt = std::stoi(row[1]);
+            if (orderTypeInt == 0) { // MARKET
+                orders.push_back(Order::createMarketOrder(
+                    static_cast<Side>(std::stoi(row[2])),
+                    row[3],
+                    std::stoi(row[4])
+                ));
+            } else if (orderTypeInt == 1) { // LIMIT
+                orders.push_back(Order::createLimitOrder(
+                    static_cast<Side>(std::stoi(row[2])),
+                    row[3],
+                    std::stoi(row[4]),
+                    std::stod(row[5])
+                ));
+            }
         }
     }
 
