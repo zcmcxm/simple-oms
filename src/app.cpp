@@ -96,14 +96,16 @@ void printOrders(const std::vector<Order>& orders) {
         return;
     }
 
-    std::cout << "ID | Type | Side | Symbol | Quantity\n";
-    std::cout << "------------------------------------\n";
+    std::cout << "ID | Type | Side | Symbol | Original Quantity | Filled Quantity | Status\n";
+    std::cout << "------------------------------------------------------------------------\n";
     for (const auto& order : orders) {
         std::cout << order.getId() << " | "
                   << toString(order.getType()) << " | "
                   << toString(order.getSide()) << " | "
                   << order.getSymbol() << " | "
-                  << order.getQuantity() << " | "
+                  << order.getOriginalQuantity() << " | "
+                  << order.getFilledQuantity() << " | "
+                  << (order.getStatus() == OrderStatus::ACTIVE ? "ACTIVE" : "CANCELED")
                   << "\n";
     }
 }

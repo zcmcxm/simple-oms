@@ -33,7 +33,9 @@ void CsvOrderRepository::addOrders(const std::vector<Order>& orders)
                  << static_cast<int>(order.getType()) << ","
                  << static_cast<int>(order.getSide()) << ","
                  << order.getSymbol() << ","
-                 << order.getQuantity() << "\n";
+                 << order.getOriginalQuantity() << ","
+                 << order.getFilledQuantity() << ","
+                 << static_cast<int>(order.getStatus()) << "\n";
         }
         file.close();
     }
@@ -63,13 +65,16 @@ std::vector<Order> CsvOrderRepository::getAllOrders() const
             row.push_back(cell);
         }
 
-        if (row.size() >= 5)
+        if (row.size() >= 7)
         {
             orders.emplace_back(
                 static_cast<OrderType>(std::stoi(row[1])),
                 static_cast<Side>(std::stoi(row[2])),
                 row[3],
-                std::stoi(row[4]));
+                std::stoi(row[4]),
+                std::stoi(row[5]),
+                static_cast<OrderStatus>(std::stoi(row[6]))
+            );
         }
     }
 

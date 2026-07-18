@@ -1,6 +1,4 @@
 #include "order.h"
-#include "limit_order.h"
-#include "market_order.h"
 #include "order_repository.h"
 #include "order_service.h"
 
@@ -14,7 +12,7 @@ void OrderService::submitOrder(const Order &order)
 
 int OrderService::createLimitOrder(Side side, std::string symbol, int quantity, double limitPrice)
 {
-    LimitOrder order(side, symbol, quantity, limitPrice);
+    Order order = Order::createLimitOrder(side, symbol, quantity, limitPrice);
     this->orderBook->addOrder(order);
     this->orderRepository->addOrders(this->orderBook->getOrders());
     return order.getId();
@@ -22,7 +20,7 @@ int OrderService::createLimitOrder(Side side, std::string symbol, int quantity, 
 
 int OrderService::createMarketOrder(Side side, std::string symbol, int quantity)
 {
-    MarketOrder order(side, symbol, quantity);
+    Order order = Order::createMarketOrder(side, symbol, quantity);
     this->orderBook->addOrder(order);
     this->orderRepository->addOrders(this->orderBook->getOrders());
     return order.getId();

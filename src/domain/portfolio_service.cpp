@@ -1,6 +1,6 @@
 #include <string>
-#include "order_repository.h"
 #include "portfolio_service.h"
+#include "order_repository.h"
 
 PortfolioService::PortfolioService(std::shared_ptr<OrderRepository> repository): orderRepository(repository) {}
 std::string PortfolioService::getSummary() const {
