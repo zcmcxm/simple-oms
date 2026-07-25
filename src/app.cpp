@@ -237,7 +237,7 @@ void runApp(OrderService& orderService, PortfolioService& portfolioService) {
         } else if (command == "fill_order") {
             fillOrder(orderService);
         } else if (command == "view_portfolio") {
-            // viewPortfolio(portfolioService);
+            std::cout << portfolioService.getSummary() << "\n";
         } else if (command == "view_orders") {
             viewOrders(orderService);
         } else if (command == "quit" || command == "exit") {
