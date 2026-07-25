@@ -18,7 +18,7 @@ std::string CsvOrderRepository::getStoragePath() const {
     return std::filesystem::path(getProjectRoot()) / CSV_FILE_PATH;
 }
 
-void CsvOrderRepository::addOrders(const std::vector<Order>& orders)
+void CsvOrderRepository::saveOrders(const std::vector<Order>& orders)
 {
     const auto path = getStoragePath();
     std::ofstream file(path);
@@ -84,8 +84,8 @@ std::vector<Order> CsvOrderRepository::getAllOrders() const
     return orders;
 }
 
-std::shared_ptr<OrderBook> CsvOrderRepository::loadOrders() const
+OrderBook CsvOrderRepository::loadOrders() const
 {
     auto orders = getAllOrders();
-    return std::make_shared<OrderBook>(orders);
+    return OrderBook(orders);
 }

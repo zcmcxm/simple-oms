@@ -6,9 +6,9 @@
 void runApp(OrderService& orderService, PortfolioService& portfolioService);
 
 int main() {
-    auto repository = std::make_shared<CsvOrderRepository>();
-    auto orderBook = repository->loadOrders();
-    PortfolioService portfolioService(repository);
+    CsvOrderRepository repository;
+    OrderBook orderBook = repository.loadOrders();
+    PortfolioService portfolioService(orderBook);
     OrderService orderService(orderBook, repository);
 
     runApp(orderService, portfolioService);

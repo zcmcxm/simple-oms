@@ -2,33 +2,33 @@
 #include "order_repository.h"
 #include "order_service.h"
 
-OrderService::OrderService(std::shared_ptr<OrderBook> book, std::shared_ptr<OrderRepository> repository) : orderBook(book), orderRepository(repository) {}
+OrderService::OrderService(OrderBook& book, OrderRepository& repository) : orderBook(book), orderRepository(repository) {}
 
 void OrderService::submitOrder(const Order &order)
 {
-    this->orderBook->addOrder(order);
-    this->orderRepository->addOrders(this->orderBook->getOrders());
+    this->orderBook.addOrder(order);
+    this->orderRepository.saveOrders(this->orderBook.getOrders());
 }
 
 int OrderService::createLimitOrder(Side side, std::string symbol, int quantity, double limitPrice)
 {
     Order order = Order::createLimitOrder(side, symbol, quantity, limitPrice);
-    this->orderBook->addOrder(order);
-    this->orderRepository->addOrders(this->orderBook->getOrders());
+    this->orderBook.addOrder(order);
+    this->orderRepository.saveOrders(this->orderBook.getOrders());
     return order.getId();
 }
 
 int OrderService::createMarketOrder(Side side, std::string symbol, int quantity)
 {
     Order order = Order::createMarketOrder(side, symbol, quantity);
-    this->orderBook->addOrder(order);
-    this->orderRepository->addOrders(this->orderBook->getOrders());
+    this->orderBook.addOrder(order);
+    this->orderRepository.saveOrders(this->orderBook.getOrders());
     return order.getId();
 }
 
 bool OrderService::cancelOrder(int orderId, std::string &error)
 {
-    Order* order = this->orderBook->getOrderById(orderId);
+    Order* order = this->orderBook.getOrderById(orderId);
     if (!order)
     {
         error = "Order not found";
@@ -42,7 +42,7 @@ bool OrderService::cancelOrder(int orderId, std::string &error)
     }
 
     order->markAsCanceled();
-    this->orderRepository->addOrders(this->orderBook->getOrders());
+    this->orderRepository.saveOrders(this->orderBook.getOrders());
     return true;
 }
 
@@ -53,8 +53,8 @@ bool OrderService::fillOrder(int orderId, int quantity, std::string &error)
         error = "Fill quantity must be greater than zero";
         return false;
     }
-    
-    Order* order = this->orderBook->getOrderById(orderId);
+
+    Order* order = this->orderBook.getOrderById(orderId);
     if (!order)
     {
         error = "Order not found";
@@ -81,11 +81,11 @@ bool OrderService::fillOrder(int orderId, int quantity, std::string &error)
     }
 
     order->fillQuantity(quantity);
-    this->orderRepository->addOrders(this->orderBook->getOrders());
+    this->orderRepository.saveOrders(this->orderBook.getOrders());
     return true;
 }
 
 std::vector<Order> OrderService::getAllOrders() const
 {
-    return this->orderBook->getOrders();
+    return this->orderBook.getOrders();
 }

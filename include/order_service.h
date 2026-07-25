@@ -6,10 +6,10 @@
 
 class OrderService {
     private:
-        std::shared_ptr<OrderBook> orderBook;
-        std::shared_ptr<OrderRepository> orderRepository;
+        OrderBook& orderBook;
+        OrderRepository& orderRepository;
     public:
-        OrderService(std::shared_ptr<OrderBook> book, std::shared_ptr<OrderRepository> repository);
+        OrderService(OrderBook& book, OrderRepository& repository);
         void submitOrder(const Order& order);
         int createLimitOrder(Side side, std::string symbol, int quantity, double limitPrice);
         int createMarketOrder(Side side, std::string symbol, int quantity);

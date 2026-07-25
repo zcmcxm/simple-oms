@@ -5,8 +5,8 @@
 
 class PortfolioService {
     private:
-        std::shared_ptr<OrderRepository> orderRepository;
+        OrderBook& orderBook;
     public:
-        PortfolioService(std::shared_ptr<OrderRepository> repository);
+        PortfolioService(OrderBook& book);
         std::string getSummary() const;
 };
