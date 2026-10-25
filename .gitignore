@@ -5,6 +5,7 @@
 /build*/
 /out/
 /bin/
+/target/
 
 # Specific CMake cache and generated build system files
 # (Useful fallback if someone accidentally triggers an in-source build)
@@ -44,5 +45,6 @@ CMakeUserPresets.json
 # Miscellaneous
 # ==========================================
 # Ignore temporary files, logs, and other artifacts
+.DS_Store
 orders.csv
 test*
